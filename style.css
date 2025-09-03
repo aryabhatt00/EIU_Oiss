@@ -1,0 +1,512 @@
+/* ====== BASE STYLES ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+  background-color: #fefefe;
+  color: #003366;
+  line-height: 1.6;
+}
+
+/* ====== HEADER SECTION ====== */
+.site-header {
+  background-color: #003366;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+.site-header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.site-header nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ====== TOP BANNER SECTION ====== */
+.top-banner {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+.top-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.top-banner-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(108, 142, 50, 0.9);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 5px;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  text-align: center;
+}
+
+/* ====== MAIN NAVIGATION BAR ====== */
+/* Base Navigation */
+.main-nav {
+  background-color: #ffffff;
+}
+
+.main-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  position: relative; /* Required for dropdown */
+  margin: 0;
+}
+
+.main-nav a {
+  display: block;
+  padding: 14px 20px;
+  color: black;
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.main-nav a:hover {
+  background-color: #dddddd;
+}
+
+/* Arrow Styling */
+.arrow {
+  font-size: 0.7em;
+  margin-left: 5px;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu li {
+  width: 100%;
+}
+
+.dropdown-menu li a {
+  padding: 12px 16px;
+  color: black;
+  text-align: left;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f2f2f2;
+}
+
+
+/* HIDE dropdowns by default */
+.dropdown .dropdown-menu {
+  display: none;
+}
+
+/* SHOW only when parent has .open */
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+
+/* ================================
+   SLIDER + EVENTS CONTAINER
+================================== */
+.slider-and-events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+/* ================================
+   SLIDER STYLING
+================================== */
+.highlight-slider {
+  flex: 1 1 60%;
+  position: relative;
+  background-color: #003366;
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 300px;
+}
+
+.slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slide.active {
+  display: flex;
+}
+
+.slide img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.highlight-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.highlight-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.highlight-org {
+  font-size: 0.9rem;
+  margin-top: 10px;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* ================================
+   SLIDER NAVIGATION BUTTONS
+================================== */
+.slider-nav {
+  display: flex;
+  justify-content: center;
+  background-color: #00264d;
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.slider-nav button {
+  background-color: #fff;
+  border: none;
+  color: #003366;
+  padding: 5px 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.slider-nav button:hover {
+  background-color: #ffcc00;
+  color: #00264d;
+}
+
+/* ================================
+   EVENTS PANEL
+================================== */
+.events-panel {
+  flex: 1 1 35%;
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 280px;
+  max-height: 100%;
+}
+
+.events-panel h3 {
+  color: #003366;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #003366;
+  padding-bottom: 5px;
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.event-date {
+  background-color: #eef3f8;
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem;
+  color: #003366;
+  border-radius: 4px;
+  min-width: 50px;
+}
+
+.event-title {
+  font-size: 1rem;
+  color: #003366;
+  margin: 0;
+}
+
+.more-events {
+  display: block;
+  margin-top: 10px;
+  color: #003366;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.more-events:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .slider-and-events {
+    flex-direction: column;
+  }
+
+  .highlight-slider,
+  .events-panel {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+
+/* ====== STUDENT SERVICES GRID ====== */
+.student-services-section {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.service-card {
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+}
+.service-card h3 {
+  margin: 15px 0 10px;
+  font-size: 2rem;
+  color: #003366;
+}
+.service-card p {
+  font-size: 0.95rem;
+  color: #003366;
+}
+
+/* ====== QUICK LINKS FOR STUDENTS (ICON + TEXT) ====== */
+.quick-links-section {
+  padding: 50px 20px;
+  text-align: center;
+}
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px 60px;
+  margin: 30px auto;
+  max-width: 1000px;
+  padding: 20px;
+  align-items: center;
+}
+.quick-link-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.1rem;
+  text-align: left;
+}
+.quick-link-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  background-color: #ffffff;         
+  
+  
+  padding: 6px;                      /* inner space around image */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* soft shadow for depth */
+  transition: transform 0.2s ease;
+}
+
+.quick-link-item img:hover {
+  transform: scale(1.05);            /* Optional: slight zoom on hover */
+}
+
+.quick-link-item a {
+  color: #003366;
+  font-weight: bold;
+  font-size: 2rem;
+  text-decoration: none;
+}
+.quick-link-item a:hover {
+  text-decoration: underline;
+}
+
+/* ====== AUDIENCE BOX GRID ====== */
+.audience-box-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+}
+.audience-box {
+  padding: 20px 30px;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 0.3s;
+}
+.audience-box:hover {
+  transform: scale(1.05);
+}
+.blue { background-color: #2d6ca2; }
+.teal { background-color: #0ca5a0; }
+.green { background-color: #89a02c; }
+.pink { background-color: #d46a94; }
+
+/* ====== FOOTER QUICK LINKS SECTION ====== */
+.footer-links-section {
+  padding: 30px 20px;
+  background-color: #eef3f8;
+  text-align: center;
+}
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+}
+.footer-links-list li {
+  margin: 10px 0;
+}
+.footer-links-list a {
+  text-decoration: none;
+  color: #003366;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.footer-links-list a:hover {
+  text-decoration: underline;
+}
+
+/* ====== SOCIAL MEDIA SECTION ====== */
+.social-media-section {
+  padding: 40px 20px;
+  background-color: #003366;
+  color: white;
+  text-align: center;
+}
+.social-icons {
+  margin-top: 20px;
+}
+.social-icons a{
+	color:white;
+}
+.social-icons img {
+  width: 30px;
+  margin: 0 10px;
+  transition: transform 0.2s;
+}
+.social-icons img:hover {
+  transform: scale(1.2);
+}
+
+/* ====== SITE FOOTER COPYRIGHT ====== */
+.site-footer {
+  background-color: #001f3f;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+}
+
+/* ====== SECTION HEADING COMMON STYLE ====== */
+.section-heading {
+  text-align: center;
+  font-size: 1.8em;
+  margin: 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #336699;
+  display: inline-block;
+}
+
+/* ====== MEDIA QUERIES FOR RESPONSIVENESS ====== */
+@media (max-width: 768px) {
+  .site-header nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero-section {
+    height: 250px;
+    padding: 0 15px;
+  }
+  .services-grid,
+  .quick-links-grid,
+  .audience-box-grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+  .quick-link-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .quick-link-item img {
+    margin-bottom: 8px;
+  }
+  .audience-box {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-overlay {
+    padding: 20px;
+  }
+  .section-heading {
+    font-size: 1.3em;
+  }
+  .service-card p {
+    font-size: 0.9rem;
+  }
+}
