@@ -1135,6 +1135,113 @@ body {
   text-decoration: underline;
 }
 
+/* Quick links model 2*/
+:root {
+  --brand-red: #d91c24;
+  --ink: #0f172a;
+  --ink-70: #334155;
+  --line: #e5e7eb;
+}
+
+/* Section */
+.timeline {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  position: relative;
+}
+.timeline-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--ink);
+}
+
+/* Vertical line */
+.timeline-line {
+  position: relative;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+.timeline-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: var(--line);
+  transform: translateX(-50%);
+}
+
+/* Item */
+.tl-item {
+  position: relative;
+  width: 50%;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+}
+.tl-item.left { left: 0; text-align: right; }
+.tl-item.right { left: 50%; }
+
+/* Dot */
+.tl-item::before {
+  content: "";
+  position: absolute;
+  top: 1.25rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--brand-red);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--brand-red);
+}
+.tl-item.left::before { right: -8px; }
+.tl-item.right::before { left: -8px; }
+
+/* Content box */
+.tl-content {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1rem;
+  display: inline-block;
+  max-width: 350px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform .2s ease;
+}
+.tl-content:hover { transform: translateY(-3px); }
+.tl-content h3 {
+  margin: 0 0 .4rem;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.tl-content p {
+  margin: 0;
+  font-size: .9rem;
+  color: var(--ink-70);
+}
+.tl-icon {
+  font-size: 1.5rem;
+  margin-right: .5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tl-item, .tl-item.left, .tl-item.right {
+    width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    text-align: left;
+  }
+  .tl-item::before {
+    left: calc(50% - 8px);
+  }
+}
+
+
+
 /* ====== AUDIENCE BOX GRID ====== */
 .audience-box-grid {
   display: grid;
