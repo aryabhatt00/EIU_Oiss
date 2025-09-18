@@ -1797,3 +1797,46 @@ body {
     font-size: 0.9rem;
   }
 }
+
+
+
+
+/* === CPT Zigzag Section === */
+/* Desktop Zigzag alternating layout */
+@media (min-width: 900px) {
+  .zz-item {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 4rem;
+  }
+
+  .zz-item:nth-child(even) .zz-text {
+    order: 1;
+  }
+
+  .zz-item:nth-child(even) .zz-media {
+    order: 2;
+  }
+
+  .zz-item:nth-child(odd) .zz-media {
+    order: 1;
+  }
+
+  .zz-item:nth-child(odd) .zz-text {
+    order: 2;
+  }
+}
+
+/* On mobile, reset to natural flow: Step then image */
+@media (max-width: 899px) {
+  .zz-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .zz-media,
+  .zz-text {
+    order: initial !important;
+    width: 100%;
+  }
+}
