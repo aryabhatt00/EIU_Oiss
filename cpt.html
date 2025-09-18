@@ -8,17 +8,75 @@
 </head>
 <body>
 
-  <!-- Header -->
+    <!-- Header -->
   <header class="site-header">
     <div class="container">
       <h1>Curricular Practical Training (CPT)</h1>
-      <nav>
-        <ul>
-          <li><a href="index.html">Back to Home</a></li>
-        </ul>
-      </nav>
     </div>
   </header>
+<!-- ====== MAIN NAVIGATION ====== -->
+<nav class="main-nav">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+
+    <li class="dropdown">
+      <a href="#">Prospective Students <span class="arrow">&#9662;</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="https://www.eiu.edu/international/apply.php">Undergraduate Admission</a></li>
+        <li><a href="https://www.eiu.edu/international/graduateapplication.php">Graduate Admission</a></li>
+        <li><a href="https://www.eiu.edu/international/faq.php">FAQ</a></li>
+        <li><a href="https://www.eiu.edu/international/transfer.php">Transfer to EIU</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">Newly Admitted Students <span class="arrow">&#9662;</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="https://www.eiu.edu/international/pre-departure_1.php">Pre Arrival & Port of Entry</a></li>
+        <li><a href="https://www.eiu.edu/international/intlstudentorientation.php">Orientation</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">Current Students <span class="arrow">&#9662;</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="https://www.eiu.edu/international/forms.php">Forms and Documents</a></li>
+        <li><a href="https://www.eiu.edu/international/ongoingfinancial.php">Financial Assistance</a></li>
+        <li><a href="https://www.eiu.edu/international/ImmigrationAdvising.php">Immigration Advising</a></li>
+		<li><a href="https://www.eiu.edu/international/friendship.php">International Friendship Program</a></li>
+      </ul>
+    </li>
+
+       <li class="dropdown">
+      <a href="#">Transportation <span class="arrow">&#9662;</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="https://www.eiu.edu/police/shuttleschedule.php">Panther Shuttle</a></li>
+        
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">OPT Students <span class="arrow">&#9662;</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="https://www.eiu.edu/international/opt_forms-documents.php">Apply for OPT</a></li>
+       
+      </ul>
+    </li>
+
+    
+
+    <li class="dropdown">
+      <a href="#">OISS Resources <span class="arrow">&#9662;</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="https://www.eiu.edu/international/intstdambassador.php">OISS Staff</a></li>
+       
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
 
   <!-- Hero -->
   <section class="student-checklist">
@@ -104,5 +162,48 @@
   </article>
 </section>
 
+
+
+
+<script>
+  // DROPDOWN toggle on click
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdowns = document.querySelectorAll(".dropdown > a");
+
+    dropdowns.forEach(toggle => {
+      toggle.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Close all other open dropdowns
+        document.querySelectorAll(".dropdown").forEach(drop => {
+          if (drop !== this.parentElement) {
+            drop.classList.remove("open");
+            const otherMenu = drop.querySelector(".dropdown-menu");
+            if (otherMenu) otherMenu.style.display = "none";
+          }
+        });
+
+        // Toggle this dropdown
+        const dropdown = this.parentElement;
+        const menu = dropdown.querySelector(".dropdown-menu");
+        const isOpen = dropdown.classList.contains("open");
+
+        dropdown.classList.toggle("open", !isOpen);
+        if (menu) menu.style.display = isOpen ? "none" : "block";
+      });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".dropdown")) {
+        document.querySelectorAll(".dropdown").forEach(drop => {
+          drop.classList.remove("open");
+          const menu = drop.querySelector(".dropdown-menu");
+          if (menu) menu.style.display = "none";
+        });
+      }
+    });
+  });
+</script>
 </body>
 </html>
