@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CPT | EIU OISS</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
@@ -344,22 +344,7 @@
   </div>
 </section>
 
-<script>
-function toggleTimeline(header) {
-  const body = header.nextElementSibling;
-  const arrow = header.querySelector(".arrow");
-  const isOpen = body.style.display === "block";
 
-  // Collapse all
-  document.querySelectorAll('.timeline-body').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('.arrow').forEach(el => el.style.transform = 'rotate(0deg)');
-
-  if (!isOpen) {
-    body.style.display = "block";
-    arrow.style.transform = "rotate(90deg)";
-  }
-}
-</script>
 
 
 <section class="zigzag">
@@ -416,49 +401,7 @@ function toggleTimeline(header) {
     </div>
   </article>
 </section>
+<script src="main.js"></script>
 
-
-
-
-<script>
-  // DROPDOWN toggle on click
-  document.addEventListener("DOMContentLoaded", () => {
-    const dropdowns = document.querySelectorAll(".dropdown > a");
-
-    dropdowns.forEach(toggle => {
-      toggle.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        // Close all other open dropdowns
-        document.querySelectorAll(".dropdown").forEach(drop => {
-          if (drop !== this.parentElement) {
-            drop.classList.remove("open");
-            const otherMenu = drop.querySelector(".dropdown-menu");
-            if (otherMenu) otherMenu.style.display = "none";
-          }
-        });
-
-        // Toggle this dropdown
-        const dropdown = this.parentElement;
-        const menu = dropdown.querySelector(".dropdown-menu");
-        const isOpen = dropdown.classList.contains("open");
-
-        dropdown.classList.toggle("open", !isOpen);
-        if (menu) menu.style.display = isOpen ? "none" : "block";
-      });
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener("click", function (e) {
-      if (!e.target.closest(".dropdown")) {
-        document.querySelectorAll(".dropdown").forEach(drop => {
-          drop.classList.remove("open");
-          const menu = drop.querySelector(".dropdown-menu");
-          if (menu) menu.style.display = "none";
-        });
-      }
-    });
-  });
-</script>
 </body>
 </html>
