@@ -1,0 +1,138 @@
+
+.cpt-key-info {
+  margin: 4rem 1rem;
+  padding: 2rem;
+  background: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.05);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item h3 {
+  font-size: 1.1rem;
+  color: #004a7c;
+  margin-bottom: 0.5rem;
+}
+
+.info-item p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+
+.cpt-key-cards {
+  padding: 4rem 1rem;
+  background-color: #f7f9fc;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #003366;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.info-card {
+  background: #fff;
+  padding: 1.5rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-left: 5px solid #004a7c;
+}
+
+.info-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: #004a7c;
+}
+
+.info-card p,
+.info-card ul {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  margin: 0;
+}
+
+.info-card ul {
+  padding-left: 1.2rem;
+  list-style-type: disc;
+}
+.timeline-section {
+  background: #f9f9fb;
+  padding: 3rem 1rem;
+}
+
+.timeline-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 2rem;
+}
+
+.timeline-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.timeline-item {
+  background: #fff;
+  border-left: 4px solid #0077cc;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.timeline-icon {
+  position: absolute;
+  left: -1.6rem;
+  top: 1rem;
+  background: #0077cc;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.timeline-header h3 {
+  font-size: 1.2rem;
+  color: #004a7c;
+  margin: 0;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.timeline-body {
+  display: none;
+  padding-top: 0.8rem;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.6;
+}
