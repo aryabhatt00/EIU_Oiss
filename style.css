@@ -156,6 +156,35 @@ body {
 .dropdown.open .dropdown-menu {
   display: block;
 }
+.menu-toggle {
+  display: none;
+}
+
+/* Show menu toggle button only on mobile */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: #003366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .main-nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .main-nav ul.show {
+    display: flex;
+  }
+}
 
 
 /* ================================
@@ -1840,4 +1869,3 @@ body {
     width: 100%;
   }
 }
-
