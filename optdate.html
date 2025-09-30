@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OPT Date Calculator | EIU OISS</title>
+  <link rel="stylesheet" href="optdate.css" />
+</head>
+<body>
+
+  <h1>🎓 OPT Date Tools for EIU International Students</h1>
+
+  <!-- Grace Period Tool -->
+  <div class="tool">
+    <h2>⏳ Grace Period Calculator</h2>
+    <p class="description">
+      Enter your program end date to find the last day you can legally stay in the U.S. without applying for OPT or another visa.
+    </p>
+    <label for="programEndDate">Program End Date (from your I-20):</label>
+    <input type="date" id="programEndDate">
+    <div class="output" id="graceOutput"></div>
+
+    <div class="note">
+      📌 <strong>Important Rules:</strong>
+      <ul>
+        <li>🛑 You cannot work during the 60-day grace period.</li>
+        <li>📅 This period is only for preparation, travel, or filing a change of status.</li>
+        <li>🧾 If you plan to apply for OPT, your application must be submitted before your grace period ends.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- OPT End Date Tool -->
+  <div class="tool">
+    <h2>📤 OPT End Date Estimator</h2>
+    <p class="description">
+      Enter your intended OPT start date to estimate your OPT end date (maximum of 12 months allowed).
+    </p>
+    <label for="optStartDate">OPT Start Date (you plan to begin working):</label>
+    <input type="date" id="optStartDate">
+    <div class="output" id="optEndOutput"></div>
+
+    <div class="note">
+      📌 <strong>Important Rules:</strong>
+      <ul>
+        <li>✅ Your OPT start date must fall within 60 days of your program end date.</li>
+        <li>📆 You can choose any start date in that window (even the last day).</li>
+        <li>🕛 The maximum OPT duration is 12 months from your start date.</li>
+        <li>📫 Your OPT must be approved before you start working.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Unemployment Days Tracker -->
+  <div class="tool">
+    <h2>📉 Unemployment Days Calculator (Post-OPT)</h2>
+    <p class="description">
+      Track how many days of unemployment you've used during your 90-day OPT limit. Enter multiple unemployment periods below.
+    </p>
+    <div id="dateEntries"></div>
+    <button id="addPeriodBtn" onclick="addPeriod()">➕ Add Another Period</button>
+    <div class="output" id="unempOutput"></div>
+
+    <div class="note">
+      📌 <strong>Important Rules:</strong>
+      <ul>
+        <li>🚫 You are allowed a maximum of 90 cumulative unemployment days during OPT.</li>
+        <li>📆 Even weekends and holidays count as unemployed days.</li>
+        <li>❗ Stay within your limit to maintain valid F-1 status.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Grace Period
+    const programEndDateInput = document.getElementById('programEndDate');
+    const graceOutput = document.getElementById('graceOutput');
+
+    programEndDateInput.addEventListener('change', () => {
+      const programEnd = new Date(programEndDateInput.value);
+      if (!isNaN(programEnd)) {
+        const graceEnd = new Date(programEnd);
+        graceEnd.setDate(graceEnd.getDate() + 60);
+        graceOutput.textContent = `🎯 Grace Period Ends On: ${graceEnd.toDateString()}`;
+      } else {
+        graceOutput.textContent = '';
+      }
+    });
+
+    // OPT End Date
+    const optStartInput = document.getElementById('optStartDate');
+    const optEndOutput = document.getElementById('optEndOutput');
+
+    optStartInput.addEventListener('change', () => {
+      const optStart = new Date(optStartInput.value);
+      if (!isNaN(optStart)) {
+        const optEnd = new Date(optStart);
+        optEnd.setDate(optEnd.getDate() + 365);
+        optEndOutput.textContent = `📅 Estimated OPT End Date: ${optEnd.toDateString()}`;
+      } else {
+        optEndOutput.textContent = '';
+      }
+    });
+
+    // Unemployment Logic
+  const dateEntries = document.getElementById('dateEntries');
+  const unempOutput = document.getElementById('unempOutput');
+  let count = 0;
+
+  function getTodayISO() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
+  function isOverlapping(startA, endA, startB, endB) {
+    return (startA <= endB) && (endA >= startB);
+  }
+
+  function addPeriod() {
+    const last = dateEntries.lastElementChild;
+    if (last) {
+      const start = last.querySelector('.unemp-start').value;
+      const end = last.querySelector('.unemp-end').value;
+      if (!start || !end) {
+        alert("Please fill in the last period before adding a new one.");
+        return;
+      }
+    }
+
+    count++;
+    const div = document.createElement('div');
+    div.classList.add('unemp-entry');
+    div.innerHTML = `
+      <label>Unemployment Period ${count}:</label>
+      <input type="date" class="unemp-start" min="${getTodayISO()}" />
+      <input type="date" class="unemp-end" min="${getTodayISO()}" />
+      <button class="delete-btn" onclick="this.parentElement.remove(); recalculateUnemployment()">Delete</button>
+    `;
+    dateEntries.appendChild(div);
+  }
+
+  function recalculateUnemployment() {
+    let totalDays = 0;
+    let periods = [];
+    let entries = document.querySelectorAll('.unemp-entry');
+
+    // Clear all inline errors
+    document.querySelectorAll('.inline-error').forEach(e => e.remove());
+
+    entries.forEach(entry => {
+      const startInput = entry.querySelector('.unemp-start');
+      const endInput = entry.querySelector('.unemp-end');
+      const startVal = startInput.value;
+      const endVal = endInput.value;
+
+      if (startVal && endVal) {
+        const start = new Date(startVal);
+        const end = new Date(endVal);
+
+        // basic check start <= end
+        if (start > end) {
+          showInlineError(endInput, 'End date must be after start date');
+          return;
+        }
+
+        // check overlap
+        for (let existing of periods) {
+          if ((start <= existing.end) && (end >= existing.start)) {
+            showInlineError(endInput, 'Dates overlap with another period');
+            return;
+          }
+        }
+
+        const days = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        totalDays += days;
+        periods.push({ start, end });
+      }
+    });
+
+    // Show total at bottom
+    const unempOutput = document.getElementById('unempOutput');
+    unempOutput.classList.remove("danger");
+    let msg = `📅 Total Unemployment Days: ${totalDays} / 90 days allowed`;
+    if (totalDays > 90) {
+      msg += ` ❌ Limit Exceeded!`;
+      unempOutput.classList.add("danger");
+    }
+    unempOutput.textContent = msg;
+  }
+
+  function showInlineError(inputElement, message) {
+    const error = document.createElement('div');
+    error.className = 'inline-error';
+    error.textContent = message;
+    inputElement.parentElement.appendChild(error);
+  }
+
+  document.addEventListener("input", e => {
+    if (e.target.classList.contains("unemp-start") || e.target.classList.contains("unemp-end")) {
+      recalculateUnemployment();
+    }
+  });
+  </script>
+
+</body>
+</html>
