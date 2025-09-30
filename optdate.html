@@ -52,24 +52,27 @@
   </div>
 
   <!-- Unemployment Days Tracker -->
-  <div class="tool">
-    <h2>📉 Unemployment Days Calculator (Post-OPT)</h2>
-    <p class="description">
-      Track how many days of unemployment you've used during your 90-day OPT limit. Enter multiple unemployment periods below.
-    </p>
-    <div id="dateEntries"></div>
-    <button id="addPeriodBtn" onclick="addPeriod()">➕ Add Another Period</button>
-    <div class="output" id="unempOutput"></div>
+<!-- Unemployment Days Tracker -->
+<div class="tool">
+  <h2>📉 Unemployment Days Calculator (Post-OPT)</h2>
+  <p class="description">
+    Track how many days of unemployment you've used during your 90-day OPT limit. Enter multiple unemployment periods below.
+  </p>
+  
+  <button id="addPeriodBtn" onclick="addPeriod()">➕ Add Another Period</button>
+  <div id="dateEntries"></div>
+  <div class="output" id="unempOutput"></div>
 
-    <div class="note">
-      📌 <strong>Important Rules:</strong>
-      <ul>
-        <li>🚫 You are allowed a maximum of 90 cumulative unemployment days during OPT.</li>
-        <li>📆 Even weekends and holidays count as unemployed days.</li>
-        <li>❗ Stay within your limit to maintain valid F-1 status.</li>
-      </ul>
-    </div>
+  <div class="note">
+    📌 <strong>Important Rules:</strong>
+    <ul>
+      <li>🚫 You are allowed a maximum of 90 cumulative unemployment days during OPT.</li>
+      <li>📆 Even weekends and holidays count as unemployed days.</li>
+      <li>❗ Stay within your limit to maintain valid F-1 status.</li>
+    </ul>
   </div>
+</div>
+
 
   <script>
     // Grace Period
@@ -107,16 +110,12 @@
   const unempOutput = document.getElementById('unempOutput');
   let count = 0;
 
-  function getTodayISO() {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  }
-
   function isOverlapping(startA, endA, startB, endB) {
     return (startA <= endB) && (endA >= startB);
   }
 
   function addPeriod() {
+    // don’t add if previous row incomplete
     const last = dateEntries.lastElementChild;
     if (last) {
       const start = last.querySelector('.unemp-start').value;
@@ -132,9 +131,10 @@
     div.classList.add('unemp-entry');
     div.innerHTML = `
       <label>Unemployment Period ${count}:</label>
-      <input type="date" class="unemp-start" min="${getTodayISO()}" />
-      <input type="date" class="unemp-end" min="${getTodayISO()}" />
-      <button class="delete-btn" onclick="this.parentElement.remove(); recalculateUnemployment()">Delete</button>
+      <input type="date" class="unemp-start" />
+      <input type="date" class="unemp-end" />
+      <button class="delete-btn" onclick="this.parentElement.remove(); recalculateUnemployment()">❌ Delete</button>
+      <div class="inline-error"></div>
     `;
     dateEntries.appendChild(div);
   }
@@ -144,29 +144,29 @@
     let periods = [];
     let entries = document.querySelectorAll('.unemp-entry');
 
-    // Clear all inline errors
-    document.querySelectorAll('.inline-error').forEach(e => e.remove());
+    // Clear errors
+    document.querySelectorAll('.inline-error').forEach(e => e.textContent = '');
 
     entries.forEach(entry => {
       const startInput = entry.querySelector('.unemp-start');
       const endInput = entry.querySelector('.unemp-end');
-      const startVal = startInput.value;
-      const endVal = endInput.value;
+      const errorDiv = entry.querySelector('.inline-error');
+      errorDiv.textContent = '';
 
-      if (startVal && endVal) {
-        const start = new Date(startVal);
-        const end = new Date(endVal);
+      if (startInput.value && endInput.value) {
+        const start = new Date(startInput.value);
+        const end = new Date(endInput.value);
 
-        // basic check start <= end
-        if (start > end) {
-          showInlineError(endInput, 'End date must be after start date');
+        // check end >= start
+        if (end < start) {
+          errorDiv.textContent = '⚠️ End date must be after start date.';
           return;
         }
 
-        // check overlap
+        // check overlap with previous
         for (let existing of periods) {
-          if ((start <= existing.end) && (end >= existing.start)) {
-            showInlineError(endInput, 'Dates overlap with another period');
+          if (isOverlapping(start, end, existing.start, existing.end)) {
+            errorDiv.textContent = '⚠️ Dates overlap with another period.';
             return;
           }
         }
@@ -177,22 +177,24 @@
       }
     });
 
-    // Show total at bottom
-    const unempOutput = document.getElementById('unempOutput');
-    unempOutput.classList.remove("danger");
-    let msg = `📅 Total Unemployment Days: ${totalDays} / 90 days allowed`;
-    if (totalDays > 90) {
-      msg += ` ❌ Limit Exceeded!`;
-      unempOutput.classList.add("danger");
-    }
-    unempOutput.textContent = msg;
-  }
+    // Show total
+    // Show total
+unempOutput.classList.remove("danger", "warning");
 
-  function showInlineError(inputElement, message) {
-    const error = document.createElement('div');
-    error.className = 'inline-error';
-    error.textContent = message;
-    inputElement.parentElement.appendChild(error);
+let msg = `📅 Total Unemployment Days: ${totalDays}`;
+
+if (totalDays <= 90) {
+  msg += ` / 90 days allowed (standard OPT limit) ✅`;
+} else if (totalDays <= 150) {
+  msg += ` ❗ Exceeds standard OPT (90 days), but within STEM OPT extension limit (150 days).`;
+  unempOutput.classList.add("warning");
+} else {
+  msg += ` ❌ You have exceeded the STEM OPT limit of 150 days. Your SEVIS record may be at risk.`;
+  unempOutput.classList.add("danger");
+}
+
+unempOutput.textContent = msg;
+
   }
 
   document.addEventListener("input", e => {
