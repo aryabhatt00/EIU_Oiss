@@ -4,9 +4,21 @@ body {
   background: #f4f4f9;
 }
 
+
 h1 {
   color: #00274d;
 }
+
+.caution-banner {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 10px 15px;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  margin: 16px 0 24px;
+}
+
 
 h2 {
   color: #003366;

@@ -10,6 +10,11 @@
 
   <h1>🎓 OPT Date Tools for EIU International Students</h1>
 
+  <h3 class="caution-banner">
+  ⚠️ This is an estimator tool only. For official guidance, always confirm your dates with the International Office or your DSO.
+  </h3>
+
+
   <!-- Grace Period Tool -->
   <div class="tool">
     <h2>⏳ Grace Period Calculator</h2>
@@ -83,7 +88,7 @@
       const programEnd = new Date(programEndDateInput.value);
       if (!isNaN(programEnd)) {
         const graceEnd = new Date(programEnd);
-        graceEnd.setDate(graceEnd.getDate() + 60);
+        graceEnd.setDate(graceEnd.getDate() + 60+1); //We got end date of school so we need to add 1 as end date is not included
         graceOutput.textContent = `🎯 Grace Period Ends On: ${graceEnd.toDateString()}`;
       } else {
         graceOutput.textContent = '';
