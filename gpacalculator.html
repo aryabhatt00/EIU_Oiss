@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>International GPA to US GPA Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    .gpa-box {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .gpa-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #003366;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.3rem;
+      color: #003366;
+    }
+  </style>
+</head>
+<body>
+
+<div class="gpa-box">
+  <h2>🎓 Convert to US GPA</h2>
+
+  <label for="country">Country:</label>
+  <select id="country">
+    <option value="india">India</option>
+    <option value="nigeria">Nigeria</option>
+    <option value="ghana">KNUST / Garden City Univ. College</option>
+
+  </select>
+
+<label for="gradingType">Grading Type:</label>
+<select id="gradingType"></select>
+
+
+  <label for="score">Score:</label>
+  <input type="number" id="score" step="0.1" placeholder="Enter your score">
+
+  <button onclick="calculateGPA()">Convert</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+
+    // Available grading types per country
+const gradingOptions = {
+  india: [
+    { value: "cgpa10", label: "CGPA (out of 10)" }
+  ],
+  nigeria: [
+    { value: "cgpa5", label: "CGPA (out of 5)" }
+  ],
+  ghana: [
+    { value: "percentage", label: "Perecentage (Out of 100)" }
+  ]
+};
+
+// Function to refresh grading type options based on country
+function updateGradingOptions() {
+  const country = document.getElementById("country").value;
+  const gradingSelect = document.getElementById("gradingType");
+
+  // clear current options
+  gradingSelect.innerHTML = "";
+
+  // add relevant options
+  gradingOptions[country].forEach(opt => {
+    const option = document.createElement("option");
+    option.value = opt.value;
+    option.textContent = opt.label;
+    gradingSelect.appendChild(option);
+  });
+}
+
+// Initialize options on page load
+updateGradingOptions();
+
+// Update options when country changes
+document.getElementById("country").addEventListener("change", updateGradingOptions);
+
+  // ----------- India Conversion -----------
+  function convertIndiaCGPA10(cgpa) {
+    if (cgpa > 10 || cgpa < 0) return null;
+
+    if (cgpa >= 9.0) return 4.0;
+    else if (cgpa >= 6.0) {
+      // slope 0.5 per CGPA from 6.0 to 8.9
+      return +(2.5 + (cgpa - 6.0) * 0.5).toFixed(2);
+    } else if (cgpa >= 4.0) {
+      // slope from 2.0 at 4.0 to 2.5 at 6.0 (0.25 per CGPA)
+      return +(2.0 + (cgpa - 4.0) * 0.25).toFixed(2);
+    } else {
+      return null; // below 4.0 not allowed
+    }
+  }
+
+  // ----------- Nigeria Conversion -----------
+  function convertNigeriaCGPA5(cgpa) {
+    if (cgpa > 5 || cgpa < 0) return null;
+
+    if (cgpa >= 2.0) {
+      // slope 0.5 per CGPA from 2.0 to 5.0
+      return +(2.5 + (cgpa - 2.0) * 0.5).toFixed(2);
+    } else {
+      return null; // below 2.0 not allowed
+    }
+  }
+
+  //----------- KNUST/Garden City Conversion -----------
+  function convertGhanaKNUST(score) {
+  if (score > 100 || score < 0) return null;
+
+  if (score >= 90) {
+    return 4.0;
+  } else if (score >= 40) {
+    return +(2.5 + (score - 40) * 0.03).toFixed(2);
+  } else {
+    return null; // below 40 not allowed
+  }
+}
+
+
+  // ----------- Main Function -----------
+  function calculateGPA() {
+    const country = document.getElementById('country').value;
+    const type = document.getElementById('gradingType').value;
+    const score = parseFloat(document.getElementById('score').value);
+    const resultBox = document.getElementById('result');
+
+    if (isNaN(score)) {
+      resultBox.innerText = '❌ Please enter a valid score.';
+      return;
+    }
+
+    let gpa = 0;
+
+    if (country === 'india' && type === 'cgpa10') {
+      gpa = convertIndiaCGPA10(score);
+      if (gpa === null) {
+        resultBox.innerText = '❌ GPA conversion not supported for CGPA below 4.0';
+        return;
+      }
+    }
+
+    if (country === 'nigeria' && type === 'cgpa5') {
+      gpa = convertNigeriaCGPA5(score);
+      if (gpa === null) {
+        resultBox.innerText = '❌ GPA conversion not supported for CGPA below 2.0';
+        return;
+      }
+    }
+
+    if (country === 'ghana' && type === 'percentage') {
+  gpa = convertGhanaKNUST(score);
+  if (gpa === null) {
+    resultBox.innerText = '❌ GPA conversion not supported for scores below 40';
+    return;
+  }
+}
+
+
+    gpa = Math.min(Math.max(gpa, 0), 4);
+    resultBox.innerText = `🎯 US GPA: ${gpa.toFixed(2)} / 4.00`;
+  }
+
+  // ✅ Press Enter to trigger conversion
+  document.getElementById("score").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      calculateGPA();
+    }
+  });
+</script>
+
+</body>
+</html>
