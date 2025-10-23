@@ -1,3 +1,14 @@
+  /*
+  =======================================================================
+    EIU OISS – JAVASCRIPT
+    Developed by: Aryabhatt Narasimha Rao Kankipati
+    Graduate Assistant, Eastern Illinois University
+    Created: 2025
+    Notes: Internal credit only — not visible to users.
+  =======================================================================
+  */
+
+  console.log("EIU OISS v1.0 — Developed by Aryabhatt Narasimha Rao Kankipati, 2025");
 // Dropdown menu toggle
 document.addEventListener("DOMContentLoaded", () => {
   const dropdowns = document.querySelectorAll(".dropdown > a");
@@ -87,3 +98,4 @@ document.querySelector(".highlight-slider .prev")?.addEventListener("click", () 
 document.querySelector(".highlight-slider .next")?.addEventListener("click", () => changeSlide(1));
 
 setInterval(() => changeSlide(1), 5000);
+
