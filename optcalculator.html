@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OPT Date Calculator | EIU OISS</title>
+
+  <!-- 
+  =======================================================================
+    EIU OISS OPT DATE CALCULATOR TOOL
+    Developed by: Aryabhatt Narasimha Rao Kankipati
+    Role: Graduate Assistant, Eastern Illinois University
+    Created: 2025
+    Description: JavaScript-based interactive tool to help international
+                 students estimate OPT start/end dates, grace period,
+                 and unemployment days during OPT.
+    Note: This comment is internal only — not visible on the live site.
+  =======================================================================
+  -->
+
+  <style>
+  /*
+  =======================================================================
+    EIU OISS OPT DATE TOOL – STYLESHEET
+    Developed by: Aryabhatt Narasimha Rao Kankipati
+    Graduate Assistant, Eastern Illinois University
+    Created: 2025
+    Notes: Internal use only. Do not remove attribution.
+  =======================================================================
+  */
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f4f4f9;
+    }
+
+    h1 {
+      color: #00274d;
+    }
+
+    .caution-banner {
+      background-color: #fff3cd;
+      color: #856404;
+      padding: 10px 15px;
+      border-left: 4px solid #ffc107;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      margin: 16px 0 24px;
+    }
+
+    h2 {
+      color: #003366;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .description {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 8px 0 16px;
+    }
+
+    .note {
+      background: #eef4fa;
+      border-left: 4px solid #0077cc;
+      padding: 12px;
+      font-size: 0.9rem;
+      color: #333;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+
+    .tool {
+      background: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="date"] {
+      padding: 8px;
+      width: 250px;
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+
+    .output {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button.delete-btn {
+      background-color: #ac1e1e;
+      margin-left: 10px;
+    }
+
+    .unemp-entry {
+      margin-bottom: 10px;
+    }
+
+    /* Output warning */
+    .output.danger {
+      color: #8a2626;
+      font-weight: bold;
+    }
+
+    .output.warning {
+      color: #e67e00;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    /* Add button style */
+    #addPeriodBtn {
+      background-color: #0057b7;
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    #addPeriodBtn:hover {
+      background-color: #004099;
+    }
+
+    /* Delete Button - modern look */
+    .delete-btn {
+      background-color: #f30018;
+      color: #fff;
+      border: 2px solid #dc3545;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #f30018;
+      color: #fff;
+    }
+
+    /* Inline error below fields */
+    .inline-error {
+      color: #e40404;
+      font-size: 0.8rem;
+      margin-top: 3px;
+    }
+
+    /* Footer for official credit */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+
+      input[type="date"] {
+        width: 100%;
+      }
+
+      .tool {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🎓 OPT Date Tools for EIU International Students</h1>
+
+  <h3 class="caution-banner">
+    ⚠️ This is an estimator tool only. For official guidance, always confirm your dates with the International Office or your DSO.
+  </h3>
+
+  <!-- Grace Period Tool -->
+  <div class="tool">
+    <h2>⏳ Grace Period Calculator</h2>
+    <p class="description">
+      Enter your program end date to find the last day you can legally stay in the U.S. without applying for OPT or another visa.
+    </p>
+    <label for="programEndDate">Program End Date (from your I-20):</label>
+    <input type="date" id="programEndDate">
+    <div class="output" id="graceOutput"></div>
+
+    <div class="note">
+      📌 <strong>Important Rules:</strong>
+      <ul>
+        <li>🛑 You cannot work during the 60-day grace period.</li>
+        <li>📅 This period is only for preparation, travel, or filing a change of status.</li>
+        <li>🧾 If you plan to apply for OPT, your application must be submitted before your grace period ends.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- OPT End Date Tool -->
+  <div class="tool">
+    <h2>📤 OPT End Date Estimator</h2>
+    <p class="description">
+      Enter your intended OPT start date to estimate your OPT end date (maximum of 12 months allowed).
+    </p>
+    <label for="optStartDate">OPT Start Date (you plan to begin working):</label>
+    <input type="date" id="optStartDate">
+    <div class="output" id="optEndOutput"></div>
+
+    <div class="note">
+      📌 <strong>Important Rules:</strong>
+      <ul>
+        <li>✅ Your OPT start date must fall within 60 days of your program end date.</li>
+        <li>📆 You can choose any start date in that window (even the last day).</li>
+        <li>🕛 The maximum OPT duration is 12 months from your start date.</li>
+        <li>📫 Your OPT must be approved before you start working.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Unemployment Days Tracker -->
+  <div class="tool">
+    <h2>📉 Unemployment Days Calculator (Post-OPT)</h2>
+    <p class="description">
+      Track how many days of unemployment you've used during your 90-day OPT limit. Enter multiple unemployment periods below.
+    </p>
+    
+    <button id="addPeriodBtn" onclick="addPeriod()">➕ Add Another Period</button>
+    <div id="dateEntries"></div>
+    <div class="output" id="unempOutput"></div>
+
+    <div class="note">
+      📌 <strong>Important Rules:</strong>
+      <ul>
+        <li>🚫 You are allowed a maximum of 90 cumulative unemployment days during OPT.</li>
+        <li>📆 Even weekends and holidays count as unemployed days.</li>
+        <li>❗ Stay within your limit to maintain valid F-1 status.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Eastern Illinois University | Office of International Students and Scholars
+  </footer>
+
+  <script>
+  /*
+  =======================================================================
+    EIU OISS OPT DATE TOOL – JAVASCRIPT
+    Developed by: Aryabhatt Narasimha Rao Kankipati
+    Graduate Assistant, Eastern Illinois University
+    Created: 2025
+    Description: Handles date calculations for OPT grace period,
+                 OPT end date estimator, and unemployment tracking.
+    Notes: Internal credit only — not visible to users.
+  =======================================================================
+  */
+
+  console.log("EIU OISS OPT Tool v1.0 — Developed by Aryabhatt Narasimha Rao Kankipati, 2025");
+
+  // Grace Period Calculator
+  const programEndDateInput = document.getElementById('programEndDate');
+  const graceOutput = document.getElementById('graceOutput');
+
+  programEndDateInput.addEventListener('change', () => {
+    const programEnd = new Date(programEndDateInput.value);
+    if (!isNaN(programEnd)) {
+      const graceEnd = new Date(programEnd);
+      graceEnd.setDate(graceEnd.getDate() + 61); // +1 since end date excluded
+      graceOutput.textContent = `🎯 Grace Period Ends On: ${graceEnd.toDateString()}`;
+    } else {
+      graceOutput.textContent = '';
+    }
+  });
+
+  // OPT End Date Calculator
+  const optStartInput = document.getElementById('optStartDate');
+  const optEndOutput = document.getElementById('optEndOutput');
+
+  optStartInput.addEventListener('change', () => {
+    const optStart = new Date(optStartInput.value);
+    if (!isNaN(optStart)) {
+      const optEnd = new Date(optStart);
+      optEnd.setDate(optEnd.getDate() + 365);
+      optEndOutput.textContent = `📅 Estimated OPT End Date: ${optEnd.toDateString()}`;
+    } else {
+      optEndOutput.textContent = '';
+    }
+  });
+
+  // Unemployment Days Tracker
+  const dateEntries = document.getElementById('dateEntries');
+  const unempOutput = document.getElementById('unempOutput');
+  let count = 0;
+
+  function isOverlapping(startA, endA, startB, endB) {
+    return (startA <= endB) && (endA >= startB);
+  }
+
+  function addPeriod() {
+    const last = dateEntries.lastElementChild;
+    if (last) {
+      const start = last.querySelector('.unemp-start').value;
+      const end = last.querySelector('.unemp-end').value;
+      if (!start || !end) {
+        alert("Please fill in the last period before adding a new one.");
+        return;
+      }
+    }
+
+    count++;
+    const div = document.createElement('div');
+    div.classList.add('unemp-entry');
+    div.innerHTML = `
+      <label>Unemployment Period ${count}:</label>
+      <input type="date" class="unemp-start" />
+      <input type="date" class="unemp-end" />
+      <button class="delete-btn" onclick="this.parentElement.remove(); recalculateUnemployment()">❌ Delete</button>
+      <div class="inline-error"></div>
+    `;
+    dateEntries.appendChild(div);
+  }
+
+  function recalculateUnemployment() {
+    let totalDays = 0;
+    let periods = [];
+    let entries = document.querySelectorAll('.unemp-entry');
+
+    document.querySelectorAll('.inline-error').forEach(e => e.textContent = '');
+
+    entries.forEach(entry => {
+      const startInput = entry.querySelector('.unemp-start');
+      const endInput = entry.querySelector('.unemp-end');
+      const errorDiv = entry.querySelector('.inline-error');
+      errorDiv.textContent = '';
+
+      if (startInput.value && endInput.value) {
+        const start = new Date(startInput.value);
+        const end = new Date(endInput.value);
+
+        if (end < start) {
+          errorDiv.textContent = '⚠️ End date must be after start date.';
+          return;
+        }
+
+        for (let existing of periods) {
+          if (isOverlapping(start, end, existing.start, existing.end)) {
+            errorDiv.textContent = '⚠️ Dates overlap with another period.';
+            return;
+          }
+        }
+
+        const days = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        totalDays += days;
+        periods.push({ start, end });
+      }
+    });
+
+    unempOutput.classList.remove("danger", "warning");
+    let msg = `📅 Total Unemployment Days: ${totalDays}`;
+
+    if (totalDays <= 90) {
+      msg += ` / 90 days allowed (standard OPT limit) ✅`;
+    } else if (totalDays <= 150) {
+      msg += ` ❗ Exceeds standard OPT (90 days), but within STEM OPT extension limit (150 days).`;
+      unempOutput.classList.add("warning");
+    } else {
+      msg += ` ❌ You have exceeded the STEM OPT limit of 150 days. Your SEVIS record may be at risk.`;
+      unempOutput.classList.add("danger");
+    }
+
+    unempOutput.textContent = msg;
+  }
+
+  document.addEventListener("input", e => {
+    if (e.target.classList.contains("unemp-start") || e.target.classList.contains("unemp-end")) {
+      recalculateUnemployment();
+    }
+  });
+  </script>
+
+</body>
+</html>
