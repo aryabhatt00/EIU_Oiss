@@ -1,3 +1,13 @@
+  /*
+  =======================================================================
+    EIU OISS OPT DATE TOOL – STYLESHEET
+    Developed by: Aryabhatt Narasimha Rao Kankipati
+    Graduate Assistant, Eastern Illinois University
+    Created: 2025
+    Notes: Internal use only. Do not remove attribution.
+  =======================================================================
+  */
+
 body {
   font-family: Arial, sans-serif;
   padding: 30px;
@@ -152,3 +162,4 @@ button.delete-btn {
   color: #e67e00;
   font-style: italic;
 }
+
