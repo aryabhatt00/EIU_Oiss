@@ -1,3 +1,15 @@
+/*
+=======================================================================
+  EIU OISS – CURRICULAR PRACTICAL TRAINING (CPT) PAGE STYLESHEET
+  Developed by: Aryabhatt Narasimha Rao Kankipati
+  Role: Graduate Assistant, Office of International Students & Scholars
+  Institution: Eastern Illinois University
+  Created: 2025
+  Description: Stylesheet for CPT informational web page, including 
+               key info grid, card layouts, and interactive timeline.
+  Note: Internal author credit only — not visible on the live website.
+=======================================================================
+*/
 
 .cpt-key-info {
   margin: 4rem 1rem;
@@ -24,7 +36,6 @@
   line-height: 1.5;
   color: #333;
 }
-
 
 .cpt-key-cards {
   padding: 4rem 1rem;
@@ -72,6 +83,9 @@
   padding-left: 1.2rem;
   list-style-type: disc;
 }
+
+/* ====================== TIMELINE SECTION ====================== */
+
 .timeline-section {
   background: #f9f9fb;
   padding: 3rem 1rem;
