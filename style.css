@@ -1,3 +1,12 @@
+  /*
+  =======================================================================
+    EIU OISS – STYLESHEET
+    Developed by: Aryabhatt Narasimha Rao Kankipati
+    Graduate Assistant, Eastern Illinois University
+    Created: 2025
+    Notes: Internal use only. Do not remove attribution.
+  =======================================================================
+  */
 /* ====== BASE STYLES ====== */
 * {
   margin: 0;
@@ -1869,3 +1878,4 @@ body {
     width: 100%;
   }
 }
+
