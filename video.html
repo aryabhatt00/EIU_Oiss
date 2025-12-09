@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>OISS Video Library</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f6f7fb;
+  margin: 0;
+  padding: 24px;
+}
+
+/* Section */
+.oiss-video-library {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.section-heading {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.section-intro {
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 25px;
+  color: #444;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Controls */
+.ovl-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#ovlSearch {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 260px;
+}
+
+.ovl-chips {
+  display: flex;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border: none;
+  background: #e0e0e0;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.chip.is-active {
+  background: #004aad;
+  color: white;
+}
+
+.ovl-meta {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* ========== FIXED CARD LAYOUT (ROWS + COLUMNS) ========== */
+.ovl-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: center;   /* center the row */
+}
+
+/* Each card has fixed-ish width, never stretches full container */
+.ovl-card {
+  background: white;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  flex: 0 1 280px;           /* base width ~280px */
+  max-width: 320px;          /* don’t become too big on wide screens */
+}
+
+.ovl-card img {
+  width: 100%;
+  border-radius: 8px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.ovl-card-body h3 {
+  margin: 10px 0 6px;
+}
+
+.ovl-card-body p {
+  font-size: 14px;
+  color: #444;
+}
+
+.ovl-watch {
+  margin-top: 8px;
+  width: 100%;
+  padding: 10px;
+  background: #004aad;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Modal */
+.ovl-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.ovl-modal.open {
+  display: flex;
+}
+
+.ovl-modal-inner {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ovl-modal-head {
+  background: #003a75;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ovl-close {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+
+.ovl-modal-body iframe {
+  width: 100%;
+  height: 440px;
+  border: none;
+}
+
+/* WATERMARK */
+.watermark {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<section class="oiss-video-library">
+  <h2 class="section-heading">OISS Video Library</h2>
+  <p class="section-intro">
+    Quick videos to help you understand visas, housing, arrival steps, campus life, and your journey as an international student at EIU.
+  </p>
+
+  <!-- Controls -->
+  <div class="ovl-controls">
+    <input id="ovlSearch" type="search" placeholder="Search videos (e.g., visa, housing, orientation)…" />
+
+    <div class="ovl-chips">
+      <button class="chip is-active" data-filter="all">All</button>
+      <button class="chip" data-filter="pre">Pre-Arrival</button>
+      <button class="chip" data-filter="imm">Immigration</button>
+      <button class="chip" data-filter="ori">Orientation</button>
+      <button class="chip" data-filter="life">Student Life</button>
+      <button class="chip" data-filter="alum">Alumni</button>
+    </div>
+
+    <div class="ovl-meta"><span id="ovlCount">6</span> videos</div>
+  </div>
+
+  <!-- Video Cards -->
+  <div id="ovlGrid" class="ovl-grid">
+
+    <!-- Video 1 -->
+    <article class="ovl-card" data-cat="pre" data-title="Pre-Arrival Checklist" data-tags="arrival travel documents packing">
+      <img src="assets/eiu_castle.jpg" alt="">
+      <div class="ovl-card-body">
+        <h3>Pre-Arrival Checklist</h3>
+        <p>Everything you need before traveling to EIU — documents, packing, and arrival steps.</p>
+
+        <button class="ovl-watch"
+          data-title="Pre-Arrival Checklist"
+          data-video="https://pmaileiu-my.sharepoint.com/personal/cmcougill_eiu_edu/_layouts/15/embed.aspx?UniqueId=c52d32c9-f85a-49cc-b1ec-e1d7acd519a7&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create">
+          Watch
+        </button>
+      </div>
+    </article>
+
+    <!-- Video 2 -->
+    <article class="ovl-card" data-cat="imm" data-title="F-1 Visa Guidance" data-tags="visa sevis i20 ds160 interview">
+      <img src="assets/visa_guidance.png" alt="">
+      <div class="ovl-card-body">
+        <h3>F-1 Visa Guidance</h3>
+        <p>A clear walk-through of the F-1 visa process, including I-20, SEVIS fee, DS-160, and interview tips.</p>
+
+        <button class="ovl-watch"
+          data-title="F-1 Visa Guidance"
+          data-video="https://pmaileiu-my.sharepoint.com/personal/cmcougill_eiu_edu/_layouts/15/embed.aspx?UniqueId=c52d32c9-f85a-49cc-b1ec-e1d7acd519a7&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create">
+          Watch
+        </button>
+      </div>
+    </article>
+
+    <!-- Video 3 -->
+    <article class="ovl-card" data-cat="ori" data-title="Orientation Essentials" data-tags="orientation checkin holds deadlines">
+      <img src="assets/orientation.jpg" alt="">
+      <div class="ovl-card-body">
+        <h3>Orientation Essentials</h3>
+        <p>Learn how to check in with OISS, meet requirements, and get started at EIU.</p>
+
+        <button class="ovl-watch"
+          data-title="Orientation Essentials"
+          data-video="https://pmaileiu-my.sharepoint.com/personal/cmcougill_eiu_edu/_layouts/15/embed.aspx?UniqueId=c52d32c9-f85a-49cc-b1ec-e1d7acd519a7&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create">
+          Watch
+        </button>
+      </div>
+    </article>
+
+    <!-- Video 4 -->
+    <article class="ovl-card" data-cat="life" data-title="Student Life at EIU" data-tags="student life culture clubs events">
+      <img src="assets/eiu_castle.jpg" alt="">
+      <div class="ovl-card-body">
+        <h3>Student Life at EIU</h3>
+        <p>Discover campus clubs, events, cultural programs, and student activities.</p>
+
+        <button class="ovl-watch"
+          data-title="Student Life at EIU"
+          data-video="https://pmaileiu-my.sharepoint.com/personal/cmcougill_eiu_edu/_layouts/15/embed.aspx?UniqueId=c52d32c9-f85a-49cc-b1ec-e1d7acd519a7&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create">
+          Watch
+        </button>
+      </div>
+    </article>
+
+    <!-- Video 5 -->
+    <article class="ovl-card" data-cat="life" data-title="Housing & Living" data-tags="housing dorms off campus lease budgeting">
+      <img src="assets/housing.jpg" alt="">
+      <div class="ovl-card-body">
+        <h3>Housing & Living</h3>
+        <p>Explore on-campus and off-campus housing options, leases, and budgeting tips.</p>
+
+        <button class="ovl-watch"
+          data-title="Housing & Living"
+          data-video="https://pmaileiu-my.sharepoint.com/personal/cmcougill_eiu_edu/_layouts/15/embed.aspx?UniqueId=c52d32c9-f85a-49cc-b1ec-e1d7acd519a7&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create">
+          Watch
+        </button>
+      </div>
+    </article>
+
+    <!-- Video 6 -->
+    <article class="ovl-card" data-cat="alum" data-title="Alumni Stories" data-tags="alumni careers opt cpt jobs">
+      <img src="assets/eiu_castle.jpg" alt="">
+      <div class="ovl-card-body">
+        <h3>Alumni Stories</h3>
+        <p>Hear international alumni share their CPT/OPT journeys and career experiences.</p>
+
+        <button class="ovl-watch"
+          data-title="Alumni Stories"
+          data-video="https://pmaileiu-my.sharepoint.com/personal/cmcougill_eiu_edu/_layouts/15/embed.aspx?UniqueId=c52d32c9-f85a-49cc-b1ec-e1d7acd519a7&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create">
+          Watch
+        </button>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Modal -->
+<div id="ovlModal" class="ovl-modal">
+  <div class="ovl-modal-inner">
+
+    <div class="ovl-modal-head">
+      <h4 id="ovlModalTitle"></h4>
+      <button class="ovl-close">&times;</button>
+    </div>
+
+    <div class="ovl-modal-body">
+      <iframe id="ovlPlayer" src="" allowfullscreen scrolling="no"></iframe>
+    </div>
+
+  </div>
+</div>
+
+<!-- WATERMARK -->
+<p class="watermark">
+  © 2025 Aryabhatt Narasimha Rao Kankipati — Graduate Assistant, Web Development — Eastern Illinois University
+</p>
+
+<script>
+(() => {
+  const chips = document.querySelectorAll(".chip");
+  const search = document.getElementById("ovlSearch");
+  const grid = document.getElementById("ovlGrid");
+  const cards = grid.querySelectorAll(".ovl-card");
+  const countEl = document.getElementById("ovlCount");
+
+  const modal = document.getElementById("ovlModal");
+  const player = document.getElementById("ovlPlayer");
+  const modalTitle = document.getElementById("ovlModalTitle");
+
+  let query = "";
+  let activeFilter = "all";
+
+  function applyFilters() {
+    let visible = 0;
+    const q = query.toLowerCase();
+
+    cards.forEach(card => {
+      const title = card.dataset.title.toLowerCase();
+      const tags = (card.dataset.tags || "").toLowerCase();
+      const cat = card.dataset.cat;
+
+      const matchFilter = activeFilter === "all" || cat === activeFilter;
+      const matchQuery = !q || title.includes(q) || tags.includes(q);
+
+      const show = matchFilter && matchQuery;
+      card.style.display = show ? "" : "none";
+
+      if (show) visible++;
+    });
+
+    countEl.textContent = visible;
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      chips.forEach(c => c.classList.remove("is-active"));
+      chip.classList.add("is-active");
+      activeFilter = chip.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  search.addEventListener("input", () => {
+    query = search.value;
+    applyFilters();
+  });
+
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".ovl-watch");
+    if (!btn) return;
+
+    modalTitle.textContent = btn.dataset.title;
+    player.src = btn.dataset.video;
+    modal.classList.add("open");
+  });
+
+  document.querySelector(".ovl-close").addEventListener("click", () => {
+    modal.classList.remove("open");
+    player.src = "";
+  });
+})();
+</script>
+
+</body>
+</html>
